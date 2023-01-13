@@ -9,8 +9,14 @@ public class UsernameInput : MonoBehaviour
     public GameObject disabledPlayBtn;
     public GameObject enabledPlayBtn;
 
+    public GameObject levelUI;
+
     void Start()
     {
+        usernameInput = GetComponent<TMP_InputField>();
+        levelUI.SetActive(false);
+        disabledPlayBtn.SetActive(true);
+        enabledPlayBtn.SetActive(false);
 
     }
 
