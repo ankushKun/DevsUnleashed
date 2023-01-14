@@ -84,7 +84,6 @@ public class PlayButton : MonoBehaviour
             if (uwr.responseCode == 200)
             {
                 res = JsonConvert.DeserializeObject<getRepoResponse>(uwr.downloadHandler.text);
-                Debug.Log(res.values.Length);
                 for (int i = 0; i < repoButtons.Length; i++)
                 {
                     repoButtons[i].SetActive(true);
@@ -95,7 +94,7 @@ public class PlayButton : MonoBehaviour
                     }
                     else
                     {
-                        repoButtons[i].GetComponent<MeshRenderer>().material = disabledMat;
+                        repoButtons[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = disabledMat;
                         rname[0].text = "Coming Soon";
                         rname[1].text = " When you will have more repos";
                         rname[2].text = ":) ";
