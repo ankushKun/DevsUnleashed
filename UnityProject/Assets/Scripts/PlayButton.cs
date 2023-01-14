@@ -50,10 +50,20 @@ public class PlayButton : MonoBehaviour
 
     private TMP_InputField usernameInput;
 
+    public GameObject[] repoButtons;
+
+    public Material disabledMat;
+
+    public GameObject menu;
+
     void Start()
     {
         clickParticles = GetComponent<ParticleSystem>();
         usernameInput = GameObject.Find("UsernameInput").GetComponent<TMP_InputField>();
+        for (int i = 0; i < repoButtons.Length; i++)
+        {
+            repoButtons[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -74,7 +84,25 @@ public class PlayButton : MonoBehaviour
             if (uwr.responseCode == 200)
             {
                 res = JsonConvert.DeserializeObject<getRepoResponse>(uwr.downloadHandler.text);
-
+                Debug.Log(res.values.Length);
+                for (int i = 0; i < repoButtons.Length; i++)
+                {
+                    repoButtons[i].SetActive(true);
+                    TMP_Text[] rname = repoButtons[i].GetComponentsInChildren<TMP_Text>();
+                    if (i < res.values.Length)
+                    {
+                        rname[0].text = res.values[i].name;
+                    }
+                    else
+                    {
+                        repoButtons[i].GetComponent<MeshRenderer>().material = disabledMat;
+                        rname[0].text = "Coming Soon";
+                        rname[1].text = " When you will have more repos";
+                        rname[2].text = ":) ";
+                    }
+                }
+                usernameInput.DeactivateInputField();
+                menu.SetActive(false);
             }
             else
             {
