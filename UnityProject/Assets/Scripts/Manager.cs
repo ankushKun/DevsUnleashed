@@ -87,6 +87,11 @@ public class Manager : MonoBehaviour
             seconds++;
             if (health < 100) { health++; }
         }
+        else if (watcherCount <= 0)
+        {
+            CancelInvoke();
+            repoName.text = "WINNER!";
+        }
     }
 
     public void DecrementHealth()
