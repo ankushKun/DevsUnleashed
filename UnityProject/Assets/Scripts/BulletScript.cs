@@ -7,6 +7,12 @@ public class BulletScript : MonoBehaviour
     public int issueNumber;
     void Start()
     {
+        Invoke("rename", 1f);
+    }
+
+    void rename()
+    {
+        gameObject.name = "Bullet(PICKUP)";
     }
 
     // Update is called once per frame

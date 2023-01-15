@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     public GameObject indicator;
     public GunScript gunScript;
 
+    public Material glow;
+
     void Start()
     {
 
@@ -23,9 +25,10 @@ public class Player : MonoBehaviour
         foreach (ContactPoint contact in collision.contacts)
         {
             // Debug.Log("Collision with " + collision.gameObject.name + " at " + contact.point + " with normal " + contact.normal);
-            if (collision.gameObject.name == "Bullet(Clone)")
+            if (collision.gameObject.name == "Bullet(PICKUP)" && !gunScript.hasBullet)
             {
                 Material mat = indicator.GetComponent<Renderer>().material;
+                // mat = glow;
                 mat.SetColor("_EmissionColor", collision.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor"));
                 gunScript.bulletIssueNumber = collision.gameObject.GetComponent<BulletScript>().issueNumber;
                 gunScript.GetComponent<GunScript>().hasBullet = true;

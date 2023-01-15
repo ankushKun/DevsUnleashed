@@ -12,6 +12,7 @@ using UnityEngine.Networking;
 public class OwnerObject
 {
     public string display_name;
+    public string username;
     public string type;
     public string nickname;
     public string account_id;
