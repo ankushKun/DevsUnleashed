@@ -39,6 +39,8 @@ public class Manager : MonoBehaviour
     public GunScript gunScript;
     int seconds = 0;
     int watcherCount = 0;
+
+    public int health = 100;
     RepoItem repoData;
 
     public GameObject enemyPrefab;
@@ -49,6 +51,7 @@ public class Manager : MonoBehaviour
         string rds = PlayerPrefs.GetString("repoData");
         repoData = JsonConvert.DeserializeObject<RepoItem>(rds);
         repoName.text = repoData.name;
+        health = 100;
         StartCoroutine(getWatcherData());
     }
 
@@ -79,9 +82,19 @@ public class Manager : MonoBehaviour
 
     void IncrementTime()
     {
-        seconds++;
+        if (watcherCount > 0)
+        {
+            seconds++;
+            if (health < 100) { health++; }
+        }
     }
 
+    public void DecrementHealth()
+    {
+        // every 10th frame
+        if (health > 0 && watcherCount > 0)
+            health--;
+    }
     public void DecrementWatcherCount()
     {
         if (watcherCount > 0)
@@ -96,6 +109,11 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        screenText.text = watcherCount + "\n" + seconds;
+        screenText.text = watcherCount + "\n" + seconds + "\n" + health;
+        if (health <= 0)
+        {
+            CancelInvoke();
+            repoName.text = "GAME OVER";
+        }
     }
 }

@@ -30,6 +30,8 @@ public class GunScript : MonoBehaviour
 
     public int bpos = 0;
 
+    public Transform[] spawnPoints;
+
     void Start()
     {
         hasBullet = false;
@@ -74,7 +76,7 @@ public class GunScript : MonoBehaviour
         mat.SetColor("_EmissionColor", bulletColors[bpos]);
         bullet.GetComponent<BulletScript>().issueNumber = bpos;
 
-        GameObject enemy = Instantiate(enemyPrefab, new Vector3(UnityEngine.Random.Range(xMin, xMax), 5, UnityEngine.Random.Range(zMin, zMax)), Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, spawnPoints[Random.Range(0, spawnPoints.Length - 1)].position, Quaternion.identity);
         enemy.transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_EmissionColor", bulletColors[bpos]); // brenA
         enemy.transform.GetChild(0).GetChild(2).GetComponent<Renderer>().material.SetColor("_EmissionColor", bulletColors[bpos]); // brenB
         enemy.transform.GetChild(1).GetComponent<TMP_Text>().text = name;

@@ -61,10 +61,11 @@ public class EnemyScript : MonoBehaviour
                     managerScript.DecrementWatcherCount();
                     GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 }
-                else
-                {
-
-                }
+            }
+            else if (collision.gameObject.name == "Target")
+            {
+                managerScript.DecrementHealth();
+                transform.position -= transform.forward * Time.deltaTime * speed * 5;
             }
         }
     }
