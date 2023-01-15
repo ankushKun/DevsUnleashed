@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunScript : MonoBehaviour
@@ -17,7 +18,9 @@ public class GunScript : MonoBehaviour
     public Transform gunJoint;
 
     float bulletScale = 0.314f;
-    public float bulletSpeed = 1000f;
+    public float bulletSpeed = 10000f;
+
+    public GameObject enemyPrefab;
 
     int xMax = 20, xMin = -23, zMax = 15, zMin = -29;
 
@@ -52,6 +55,7 @@ public class GunScript : MonoBehaviour
         bullet.transform.SetParent(null);
         bullet.transform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
         bullet.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
+        bullet.GetComponent<BulletScript>().deleteIn10();
         // hasBullet = false;
         // }
     }
@@ -62,6 +66,13 @@ public class GunScript : MonoBehaviour
         Material mat = bullet.GetComponent<Renderer>().material;
         mat.SetColor("_EmissionColor", bulletColors[bpos]);
         bullet.GetComponent<BulletScript>().issueNumber = bpos;
+
+        GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(xMin, xMax), 5, Random.Range(zMin, zMax)), Quaternion.identity);
+        enemy.transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_EmissionColor", bulletColors[bpos]); // brenA
+        enemy.transform.GetChild(0).GetChild(2).GetComponent<Renderer>().material.SetColor("_EmissionColor", bulletColors[bpos]); // brenB
+        enemy.GetComponent<EnemyScript>().issueNumber = bpos;
+
+
         bpos++;
         if (bpos >= bulletColors.Length)
         {
