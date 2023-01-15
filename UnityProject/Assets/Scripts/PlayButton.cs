@@ -8,38 +8,39 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
+public class OwnerObject
+{
+    public string display_name;
+    public string type;
+    public string nickname;
+    public string account_id;
+    public string uuid;
+}
+
+public class Workspace
+{
+    public string type;
+    public string slug;
+    public string name;
+    public string uuid;
+
+}
+public class RepoItem
+{
+    public string full_name;
+    public string name;
+    public string slug;
+    public string description;
+    public OwnerObject owner;
+    public Workspace workspace;
+
+    public DateTime created_on;
+    public DateTime updated_on;
+}
+
 public class getRepoResponse
 {
-    public class OwnerObject
-    {
-        public string display_name;
-        public string type;
-        public string nickname;
-        public string account_id;
-        public string uuid;
-    }
-
-    public class Workspace
-    {
-        public string type;
-        public string slug;
-        public string name;
-        public string uuid;
-
-    }
-    public class RepoItem
-    {
-        public string full_name;
-        public string name;
-        public string slug;
-        public string description;
-        public OwnerObject owner;
-        public Workspace workspace;
-
-        public DateTime created_on;
-        public DateTime updated_on;
-    }
-
     public RepoItem[] values;
 }
 
@@ -91,10 +92,14 @@ public class PlayButton : MonoBehaviour
                     if (i < res.values.Length)
                     {
                         rname[0].text = res.values[i].name;
+                        GameObject repoButton = repoButtons[i].transform.GetChild(0).gameObject;
+                        repoButton.GetComponent<LevelButtonScript>().repoData = res.values[i];
+                        repoButton.GetComponent<LevelButtonScript>().clickable = true;
                     }
                     else
                     {
-                        repoButtons[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = disabledMat;
+                        GameObject repoButton = repoButtons[i].transform.GetChild(0).gameObject;
+                        repoButton.GetComponent<MeshRenderer>().material = disabledMat;
                         rname[0].text = "Coming Soon";
                         rname[1].text = " When you will have more repos";
                         rname[2].text = ":) ";
